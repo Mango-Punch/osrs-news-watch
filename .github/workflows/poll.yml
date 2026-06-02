@@ -1,0 +1,39 @@
+name: poll-osrs-news
+
+# Checks the official OSRS news feed and pushes new posts to ntfy.
+# Schedule is best-effort: GitHub deprioritises cron, so "*/15" really means
+# "every ~15-40 min". Manual runs (workflow_dispatch) fire immediately.
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write   # to commit seen.json (the "already pushed" marker) back
+
+concurrency:
+  group: poll-osrs-news
+  cancel-in-progress: false
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Poll feed and push new posts
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python3 poll_news.py
+
+      - name: Commit updated marker
+        run: |
+          if [ -n "$(git status --porcelain seen.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add seen.json
+            git commit -m "update seen marker [skip ci]"
+            git push
+          else
+            echo "no marker change"
+          fi
