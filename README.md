@@ -1,9 +1,10 @@
 # osrs-news-watch
 
-Tiny cloud cron that watches the **official Old School RuneScape news feed** and
-**pushes a phone notification (via [ntfy](https://ntfy.sh)) whenever Jagex posts
-anything new**. Built so I hear about OSRS update catalysts in the first hours —
-without my laptop being on and without opening anything.
+Tiny cloud cron that watches **official Old School RuneScape news** and
+**pushes a phone notification (via [ntfy](https://ntfy.sh))** when Jagex posts
+anything new — **or materially edits a recent post**. Built so I hear about OSRS
+update catalysts in the first hours — without my laptop being on and without
+opening anything.
 
 Part of the **OSRS Trader** project (the proactive half of its catalyst loop).
 It is deliberately *dumb*: it pings on **every** new post and makes no judgement
@@ -12,10 +13,18 @@ about relevance — I scan the title myself and dig in if it matters.
 ## How it works
 
 1. GitHub Actions runs [`poll_news.py`](poll_news.py) on a timer (`*/15` — see caveat).
-2. The script reads the [OSRS news RSS feed](https://secure.runescape.com/m=news/latest_news.rss?oldschool=1).
-3. It compares against [`seen.json`](seen.json) — the list of posts already pushed.
-4. Anything new → one ntfy push (**title · category · date**, tap to open the post).
-5. It commits the updated `seen.json` back, so the same post never pings twice.
+2. **New posts:** the script reads the [OSRS news RSS feed](https://secure.runescape.com/m=news/latest_news.rss?oldschool=1)
+   and compares against [`seen.json`](seen.json). Anything new → one ntfy push
+   (**title · category · date**, tap to open the post).
+3. **Post edits:** Jagex amends live blogs after publication (Summer Sweep-Up 2026
+   grew +13.9k chars five days post-publication; the RSS feed never showed it).
+   The script polls the OSRS Wiki `recentchanges` API for edits to the `Update:`
+   namespace — which mirrors every news post within minutes — and pushes
+   **"Updated: \<post\>"** when an edit is ≥500 bytes and the post is recent
+   (in the current feed, or ≤60 days old by the page's own date param). Smaller
+   edits are wiki-editor gardening and stay silent.
+4. It commits the updated `seen.json` back (feed GUIDs + alerted edit revision
+   ids), so nothing pings twice.
 
 The very first run seeds `seen.json` with the current backlog and pushes nothing.
 
