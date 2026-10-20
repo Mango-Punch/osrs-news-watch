@@ -90,7 +90,8 @@
     "https://secure.runescape.com/m=news/quest-month---rewards-poll-blog?oldschool=1",
     "https://secure.runescape.com/m=news/more-gathering-efficiencies?oldschool=1",
     "https://secure.runescape.com/m=news/community-spotlight-10boot?oldschool=1",
-    "https://secure.runescape.com/m=news/jagex-accounts-migration-begins-nov-17?oldschool=1"
+    "https://secure.runescape.com/m=news/jagex-accounts-migration-begins-nov-17?oldschool=1",
+    "https://secure.runescape.com/m=news/the-fractured-archive---out-today?oldschool=1"
   ],
   "edit_revids": [
     15230330,
@@ -131,6 +132,7 @@
     15367525,
     15368553,
     15372086,
-    15372504
+    15372504,
+    15376864
   ]
 }
