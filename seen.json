@@ -98,7 +98,8 @@
     "https://secure.runescape.com/m=news/introducing-melvor-idle-2-a-runescape-adventure?oldschool=1",
     "https://secure.runescape.com/m=news/deep-sea-diving-expansion?oldschool=1",
     "https://secure.runescape.com/m=news/name-release-begins-soon?oldschool=1",
-    "https://secure.runescape.com/m=news/quest-month-kick-off-tfa-tweaks--more?oldschool=1"
+    "https://secure.runescape.com/m=news/quest-month-kick-off-tfa-tweaks--more?oldschool=1",
+    "https://secure.runescape.com/m=news/the-reapers-raffle--hardcore-worlds?oldschool=1"
   ],
   "edit_revids": [
     15230330,
@@ -143,6 +144,8 @@
     15376864,
     15378470,
     15378535,
-    15379451
+    15379451,
+    15391108,
+    15391410
   ]
 }
